@@ -86,9 +86,7 @@ export default function Starfield({ scrollProgress }) {
         <bufferGeometry>
           <bufferAttribute
             attach="attributes-position"
-            array={distantPositions}
-            count={distantCount}
-            itemSize={3}
+            args={[distantPositions, 3]}
           />
         </bufferGeometry>
         <pointsMaterial
@@ -106,15 +104,11 @@ export default function Starfield({ scrollProgress }) {
         <bufferGeometry>
           <bufferAttribute
             attach="attributes-position"
-            array={fgPositions}
-            count={foregroundCount}
-            itemSize={3}
+            args={[fgPositions, 3]}
           />
           <bufferAttribute
             attach="attributes-color"
-            array={fgColors}
-            count={foregroundCount}
-            itemSize={3}
+            args={[fgColors, 3]}
           />
         </bufferGeometry>
         <pointsMaterial

@@ -65,6 +65,7 @@ function LoadingScreen() {
 
 export default function App() {
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [loading, setLoading] = useState(true);
   const mouse = useMousePosition();
   const lenisRef = useRef(null);
 
@@ -117,33 +118,36 @@ export default function App() {
         style={{ height: `${SCROLL_PAGES * 100}vh` }}
       />
 
+      {/* Loading overlay rendered on top */}
+      {loading && <LoadingScreen />}
+
       {/* 3D Canvas - fixed background */}
       <div className="canvas-container">
-        <Suspense fallback={<LoadingScreen />}>
-          <Canvas
-            gl={{
-              antialias: true,
-              alpha: true,
-              powerPreference: 'high-performance',
-              stencil: false,
-              depth: true,
-            }}
-            dpr={[1, Math.min(window.devicePixelRatio, 2)]}
-            camera={{
-              fov: 60,
-              near: 0.1,
-              far: 100,
-              position: [0, 2, 28],
-            }}
-            style={{ background: '#000000' }}
-          >
+        <Canvas
+          gl={{
+            antialias: true,
+            alpha: true,
+            stencil: false,
+            depth: true,
+          }}
+          dpr={[1, Math.min(window.devicePixelRatio, 2)]}
+          camera={{
+            fov: 60,
+            near: 0.1,
+            far: 100,
+            position: [0, 2, 28],
+          }}
+          style={{ background: '#000000' }}
+        >
+          <Suspense fallback={null}>
             <Scene
               scrollProgress={scrollProgress}
               mouseX={mouse.nx}
               mouseY={mouse.ny}
+              onLoad={() => setLoading(false)}
             />
-          </Canvas>
-        </Suspense>
+          </Suspense>
+        </Canvas>
       </div>
 
       {/* Navbar - separate from overlay for pointer events */}

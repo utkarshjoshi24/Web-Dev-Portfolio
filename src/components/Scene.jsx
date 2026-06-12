@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { COLORS_HEX } from '../utils/constants';
@@ -8,10 +8,16 @@ import Asteroids from './Asteroids';
 import CameraRig from './CameraRig';
 import PostEffects from './PostEffects';
 
-export default function Scene({ scrollProgress, mouseX, mouseY }) {
+export default function Scene({ scrollProgress, mouseX, mouseY, onLoad }) {
   const pointLight1Ref = useRef();
   const pointLight2Ref = useRef();
   const pointLight3Ref = useRef();
+
+  useEffect(() => {
+    if (onLoad) {
+      onLoad();
+    }
+  }, [onLoad]);
 
   // Animate lights based on time to add dynamic space glow
   useFrame((state) => {
